@@ -63,7 +63,19 @@ public class LogicLevel1 : MonoBehaviour
 
     void Selector()
     {
+        if (Input.GetMouseButtonDown(0)) // Detecta clic izquierdo
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Debug.DrawRay(ray.origin, ray.direction * 10, Color.red, 2f);
+            RaycastHit hit;
 
+            if (Physics.Raycast(ray, out hit))
+            {
+                GameObject clickedObject = hit.collider.gameObject;
+                TextMesh tm = clickedObject.GetComponent<TextMesh>();
+                Debug.Log(clickedObject.GetComponent<TextMesh>().text);
+            }
+        }
     }
 
     void Start()
@@ -78,9 +90,9 @@ public class LogicLevel1 : MonoBehaviour
 
     void Update()
     {
-        if (vidas < 0)
+        if (vidas > 0)
         {
-            Debug.Log("Fin del juego");
+            Selector();
         }
 
     }

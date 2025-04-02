@@ -36,11 +36,11 @@ public class ChickenSpawner : MonoBehaviour
     public void SpawnChickens(string[] ans) {
         GameObject c;
         Vector3[] pos = ChickenPos();
+        chickenPrefab.transform.localScale = new Vector3(2,2,2);
         for (int i = 0; i < 5; i++)
         {
             c = Instantiate(chickenPrefab);
             c.transform.position = pos[i];
-            c.transform.localScale = new Vector3(2,2,2);
             spawnedChickens.Add(c);
             TextMesh tm = c.AddComponent<TextMesh>();
             tm.text = ans[i];
