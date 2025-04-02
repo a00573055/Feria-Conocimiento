@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.InputSystem;
 using TMPro;
+[RequireComponent(typeof(MeshCollider))]
 
 public class Preguntas
 {
@@ -59,6 +59,11 @@ public class LogicLevel1 : MonoBehaviour
         questionCount++;
 
         chicken.SpawnChickens(respuestas);
+    }
+
+    void Selector()
+    {
+
     }
 
     void Start()
