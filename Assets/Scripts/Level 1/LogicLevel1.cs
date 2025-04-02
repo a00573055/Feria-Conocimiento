@@ -56,8 +56,6 @@ public class LogicLevel1 : MonoBehaviour
             indexRespuesta++;
         }
 
-        questionCount++;
-
         chicken.SpawnChickens(respuestas);
     }
 
@@ -73,7 +71,22 @@ public class LogicLevel1 : MonoBehaviour
             {
                 GameObject clickedObject = hit.collider.gameObject;
                 TextMesh tm = clickedObject.GetComponent<TextMesh>();
-                Debug.Log(clickedObject.GetComponent<TextMesh>().text);
+                if (tm != null)
+                {
+                    string respuesta = tm.text;
+                    string respuestaCorrecta = p.respuestas[p.posicionRespuetas[questionPointer]];
+                    if (respuesta == respuestaCorrecta)
+                    {
+                        aciertos++;
+                        Debug.Log("Respuesta Correcta");
+                        chicken.CleanupChickens();
+                        questionCount++;
+                        ShowQuestion();
+                    } else {
+                        vidas--;
+                        Debug.Log("Respuesta Incorrecta");
+                    }
+                }
             }
         }
     }
@@ -90,7 +103,7 @@ public class LogicLevel1 : MonoBehaviour
 
     void Update()
     {
-        if (vidas > 0)
+        if (vidas > 0 && questionPointer > 5)
         {
             Selector();
         }
