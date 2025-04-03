@@ -45,7 +45,7 @@ public class LogicLevel1 : MonoBehaviour
 
     void ShowQuestion()
     {
-        if (questionCount == 5)
+        if (questionCount > 5)
             return;
         questionPointer = randomQuestions[questionCount];
 
@@ -63,15 +63,16 @@ public class LogicLevel1 : MonoBehaviour
 
     void Selector()
     {
-        if (Input.GetMouseButtonDown(0)) // Detecta clic izquierdo
+        if (Input.GetMouseButtonDown(0)) 
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Debug.DrawRay(ray.origin, ray.direction * 10, Color.red, 2f);
             RaycastHit hit;
-
+            Debug.Log("MouseInputWasDetected");
             if (Physics.Raycast(ray, out hit))
             {
                 GameObject clickedObject = hit.collider.gameObject;
+                Debug.Log(clickedObject);
                 TextMesh tm = clickedObject.GetComponent<TextMesh>();
                 if (tm != null)
                 {
@@ -83,7 +84,9 @@ public class LogicLevel1 : MonoBehaviour
                         Debug.Log("Respuesta Correcta");
                         chicken.CleanupChickens();
                         questionCount++;
-                        ShowQuestion();
+                        Debug.Log("added to question count now = " + questionCount); // <--
+                        if (questionCount < 5)
+                            ShowQuestion();
                         retroalimentacion.text = "¡Correcto!";
                     } else {
                         vidas--;
@@ -111,10 +114,14 @@ public class LogicLevel1 : MonoBehaviour
 
     void Update()
     {
-        if (vidas > 0 && questionPointer > 5 && listo)
+        //Debug.Log("vidas " + vidas);
+        //Debug.Log("pointer " + questionCount);
+        //ebug.Log("rady " + listo);
+        if (vidas > 0 && questionCount < 5 && listo)
         {
             Selector();
         }
+        
 
     }
 }
