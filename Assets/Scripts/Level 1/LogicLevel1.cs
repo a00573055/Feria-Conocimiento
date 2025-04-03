@@ -15,9 +15,11 @@ public class LogicLevel1 : MonoBehaviour
 {
     //This should be done globally
     string json = "{ \"preguntas\": [\"25x5\", \"76x6\", \"34x2\", \"66x5\", \"81x7\", \"35x9\", \"28x8\", \"93x3\", \"44x8\", \"35x6\", \"72x3\", \"62x2\", \"80x9\", \"29x5\", \"56x4\"], \"respuestas\": [\"125\", \"130\", \"140\", \"120\", \"135\", \"456\", \"460\", \"470\", \"450\", \"480\", \"68\", \"66\", \"72\", \"64\", \"70\", \"330\", \"325\", \"335\", \"340\", \"320\", \"567\", \"570\", \"560\", \"550\", \"580\", \"315\", \"320\", \"310\", \"305\", \"325\", \"224\", \"220\", \"230\", \"240\", \"210\", \"279\", \"280\", \"275\", \"270\", \"285\", \"352\", \"360\", \"340\", \"345\", \"355\", \"210\", \"215\", \"205\", \"200\", \"220\", \"216\", \"220\", \"210\", \"230\", \"225\", \"124\", \"120\", \"130\", \"128\", \"126\", \"720\", \"725\", \"715\", \"710\", \"730\", \"145\", \"150\", \"140\", \"135\", \"155\", \"224\", \"220\", \"230\", \"240\", \"210\"], \"posicionRespuetas\": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70], \"retro\": [\"Sigue Practicando\", \"Buen Intento\", \"Casi lo logras\", \"Intentalo otra vez\", \"Sigue así!\"] }";
-    Preguntas p;
     //this does belong in this part
+    Preguntas p;
+    bool listo = false;
     public TextMeshPro holderPregunta;
+    public TextMeshPro retroalimentacion;
     ChickenSpawner chicken;
     int aciertos = 0;
     int vidas = 3;
@@ -82,28 +84,34 @@ public class LogicLevel1 : MonoBehaviour
                         chicken.CleanupChickens();
                         questionCount++;
                         ShowQuestion();
+                        retroalimentacion.text = "¡Correcto!";
                     } else {
                         vidas--;
+                        if (vidas == 0) chicken.CleanupChickens();
                         Debug.Log("Respuesta Incorrecta");
+                        retroalimentacion.text = p.retro[questionCount];
                     }
                 }
             }
         }
     }
 
+    public void iniciar()
+    {
+        listo = true;
+        ShowQuestion();
+    }
+
     void Start()
     {
-        //this should be done globally
         p = JsonUtility.FromJson<Preguntas>(json);
-        //this do goes here
         chicken = FindAnyObjectByType<ChickenSpawner>();
         randomQuestions = GetRandomQuestions();
-        ShowQuestion();
     }
 
     void Update()
     {
-        if (vidas > 0 && questionPointer > 5)
+        if (vidas > 0 && questionPointer > 5 && listo)
         {
             Selector();
         }
