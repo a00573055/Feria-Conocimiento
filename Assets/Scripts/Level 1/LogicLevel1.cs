@@ -20,6 +20,7 @@ public class LogicLevel1 : MonoBehaviour
     bool listo = false;
     public TextMeshPro holderPregunta;
     public TextMeshPro retroalimentacion;
+    FinalJuego fj;
     ChickenSpawner chicken;
     int aciertos = 0;
     int vidas = 3;
@@ -27,6 +28,8 @@ public class LogicLevel1 : MonoBehaviour
     int questionPointer = 0;
     int questionCount = 0;
     
+    public int GetVidas() {return vidas;}
+    public int GetAciertos() {return aciertos;}
     List<int> GetRandomQuestions()
     {
         int i = 0;
@@ -80,16 +83,17 @@ public class LogicLevel1 : MonoBehaviour
                     string respuestaCorrecta = p.respuestas[p.posicionRespuetas[questionPointer]];
                     if (respuesta == respuestaCorrecta)
                     {
-                        aciertos++;
+                        aciertos += 1;
+                        Debug.Log("aciertos + 1");
                         Debug.Log("Respuesta Correcta");
                         chicken.CleanupChickens();
                         questionCount++;
-                        Debug.Log("added to question count now = " + questionCount); // <--
+                        Debug.Log("Question Count " + questionCount); // <--
                         if (questionCount < 5)
                             ShowQuestion();
                         retroalimentacion.text = "¡Correcto!";
                     } else {
-                        vidas--;
+                        vidas -= 1;
                         if (vidas == 0) chicken.CleanupChickens();
                         Debug.Log("Respuesta Incorrecta");
                         retroalimentacion.text = p.retro[questionCount];
@@ -109,6 +113,8 @@ public class LogicLevel1 : MonoBehaviour
     {
         p = JsonUtility.FromJson<Preguntas>(json);
         chicken = FindAnyObjectByType<ChickenSpawner>();
+        fj = FindAnyObjectByType<FinalJuego>();
+        fj.interfazFinal.SetActive(false);
         randomQuestions = GetRandomQuestions();
     }
 
@@ -121,7 +127,11 @@ public class LogicLevel1 : MonoBehaviour
         {
             Selector();
         }
-        
+        if (vidas <= 0 || questionCount > 4)
+        {
+            fj.listo = true;
+            fj.interfazFinal.SetActive(true);
+        }
 
     }
 }

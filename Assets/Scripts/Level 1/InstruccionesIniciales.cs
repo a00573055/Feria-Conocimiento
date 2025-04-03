@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
+        
         instrucciones.text = "Selecciona el resultado de la multiplicación que se muestra en el tablero. ¡Buena suerte!";
         panel.SetActive(true);
         logica = FindAnyObjectByType<LogicLevel1>();
