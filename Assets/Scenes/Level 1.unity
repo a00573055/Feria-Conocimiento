@@ -2511,6 +2511,7 @@ MonoBehaviour:
   interfazFinal: {fileID: 1808731162}
   resultado: {fileID: 1591377905}
   boton: {fileID: 1061420834}
+  listo: 0
 --- !u!4 &1528562228
 Transform:
   m_ObjectHideFlags: 0
