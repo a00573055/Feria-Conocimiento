@@ -28,6 +28,6 @@ public class FinalJuego : MonoBehaviour
 
     void RegresarMenu()
     {
-        SceneManager.LoadScene("prueba");
+        SceneManager.LoadScene("Map");
     }
 }
