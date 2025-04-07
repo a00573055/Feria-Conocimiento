@@ -27,6 +27,11 @@ public class LogicLevel1 : MonoBehaviour
     List<int> randomQuestions;
     int questionPointer = 0;
     int questionCount = 0;
+
+    //audios
+    [SerializeField] private AudioSource audioCorrecto;
+    [SerializeField] private AudioSource audioIncorrecto;
+    [SerializeField] private AudioSource audioFin;
     
     public int GetVidas() {return vidas;}
     public int GetAciertos() {return aciertos;}
@@ -84,6 +89,7 @@ public class LogicLevel1 : MonoBehaviour
                     if (respuesta == respuestaCorrecta)
                     {
                         aciertos += 1;
+                        audioCorrecto.Play();
                         Debug.Log("aciertos + 1");
                         Debug.Log("Respuesta Correcta");
                         chicken.CleanupChickens();
@@ -94,6 +100,7 @@ public class LogicLevel1 : MonoBehaviour
                         retroalimentacion.text = "¡Correcto!";
                     } else {
                         vidas -= 1;
+                        audioIncorrecto.Play();
                         if (vidas == 0) chicken.CleanupChickens();
                         Debug.Log("Respuesta Incorrecta");
                         retroalimentacion.text = p.retro[questionCount];
@@ -107,6 +114,14 @@ public class LogicLevel1 : MonoBehaviour
     {
         listo = true;
         ShowQuestion();
+    }
+
+    void Awake()
+    {
+        AudioSource[] audios = GetComponents<AudioSource>();
+        audioCorrecto = audios[0];
+        audioIncorrecto = audios[1];
+        audioFin = audios[2];
     }
 
     void Start()
